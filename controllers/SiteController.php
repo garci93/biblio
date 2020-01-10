@@ -64,6 +64,24 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    public function actionHola($nombre = 'Pépito')
+    {
+        $fila = Yii::$app->db
+            ->createCommand('SELECT *
+                               FROM libros
+                              WHERE id = 1')
+            -> queryOne();
+            $fila = (new \yii\db\Query())
+                ->from('libros')
+                ->where(['id' => 1])
+                ->one();
+        return $this->render('hola', [
+            'nombre' => $nombre,
+            'fila' => $fila,
+        ]);
+    }
+
+
     /**
      * Login action.
      *

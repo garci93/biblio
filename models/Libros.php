@@ -11,6 +11,9 @@ use Yii;
  * @property string $isbn
  * @property string $titulo
  * @property int|null $num_pags
+ * @property int $genero_id
+ *
+ * @property Generos $genero
  */
 class Libros extends \yii\db\ActiveRecord
 {
@@ -28,13 +31,13 @@ class Libros extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['isbn', 'titulo'], 'required'],
-            [['num_pags'], 'default', 'value' => null],
-            [['num_pags'], 'integer'],
-            [['num_pags' >= 0]],
+            [['isbn', 'titulo', 'genero_id'], 'required'],
+            [['num_pags', 'genero_id'], 'default', 'value' => null],
+            [['num_pags', 'genero_id'], 'integer'],
             [['isbn'], 'string', 'max' => 13],
             [['titulo'], 'string', 'max' => 255],
             [['isbn'], 'unique'],
+            [['genero_id'], 'exist', 'skipOnError' => true, 'targetClass' => Generos::className(), 'targetAttribute' => ['genero_id' => 'id']],
         ];
     }
 
@@ -45,9 +48,18 @@ class Libros extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'isbn' => 'ISBN',
-            'titulo' => 'Título',
-            'num_pags' => 'Número de páginas',
+            'isbn' => 'Isbn',
+            'titulo' => 'Titulo',
+            'num_pags' => 'Num Pags',
+            'genero_id' => 'Genero ID',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGenero()
+    {
+        return $this->hasOne(Generos::className(), ['id' => 'genero_id'])->inverseOf('libros');
     }
 }

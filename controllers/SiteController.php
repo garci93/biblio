@@ -9,6 +9,9 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Libros;
+use app\models\SaludarForm;
+use yii\web\Request;
 
 class SiteController extends Controller
 {
@@ -64,23 +67,40 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-    public function actionHola($nombre = 'Pépito')
+    public function actionHola($nombre = 'Pepito')
     {
+        return Yii::$app->request->hostInfo;
+        // DAO
         $fila = Yii::$app->db
             ->createCommand('SELECT *
                                FROM libros
                               WHERE id = 1')
-            -> queryOne();
-            $fila = (new \yii\db\Query())
-                ->from('libros')
-                ->where(['id' => 1])
-                ->one();
+            ->queryOne();
+        // Query Builder
+        $fila = (new \yii\db\Query())
+            ->from('libros')
+            ->where(['id' => 1])
+            ->one();
+        // ActiveRecord
+        $fila = Libros::findOne(1);
         return $this->render('hola', [
             'nombre' => $nombre,
             'fila' => $fila,
         ]);
     }
 
+    public function actionSaludar()
+    {
+        $saludarForm = new SaludarForm();
+
+        if ($saludarForm->load(Yii::$app->request->post()) && $saludarForm->validate()) {
+            return $this->redirect(['site/index']);
+        }
+
+        return $this->render('saludar', [
+            'saludarForm' => $saludarForm,
+        ]);
+    }
 
     /**
      * Login action.

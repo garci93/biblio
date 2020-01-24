@@ -31,4 +31,11 @@ class HelloController extends Controller
 
         return ExitCode::OK;
     }
+
+    public function actionPepito()
+    {
+        echo "Hola, soy Pepito\n";
+
+        return ExitCode::OK;
+    }
 }

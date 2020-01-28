@@ -60,10 +60,10 @@ class LibrosSearch extends Libros
         $query->andFilterWhere([
             'id' => $this->id,
             'num_pags' => $this->num_pags,
+            'isbn' => $this->isbn,
         ]);
 
-        $query->andFilterWhere(['ilike', 'isbn', $this->isbn])
-            ->andFilterWhere(['ilike', 'titulo', $this->titulo]);
+        $query->andFilterWhere(['ilike', 'titulo', $this->titulo]);
 
         return $dataProvider;
     }

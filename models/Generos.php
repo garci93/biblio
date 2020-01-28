@@ -41,7 +41,7 @@ class Generos extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'denom' => 'Denom',
+            'denom' => 'Denominación',
         ];
     }
 

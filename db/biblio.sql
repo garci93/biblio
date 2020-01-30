@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS generos CASCADE;
 
 CREATE TABLE generos
 (
-    id    bigserial    PRIMARY KEY
-  , denom varchar(255) NOT NULL UNIQUE
+    id         bigserial    PRIMARY KEY
+  , denom      varchar(255) NOT NULL UNIQUE
   , created_at timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
@@ -40,7 +40,7 @@ CREATE TABLE lectores
 );
 
 INSERT INTO lectores (numero, nombre, direccion, cod_postal, fecha_nac)
-VALUES ('111', 'Pépito', 'C/. Ancha', 11540, '1978-06-02')
+VALUES ('111', 'Pepe', 'C/. Ancha', 11540, '1978-06-02')
      , ('222', 'María', 'C/. Larga', 11550, '1992-10-15')
      , ('333', 'Antonio', 'C/. Profunda', 41002, '1999-02-06');
 

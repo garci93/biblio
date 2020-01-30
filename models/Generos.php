@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $denom
+ * @property string $created_at 
  *
  * @property Libros[] $libros
  */
@@ -42,6 +43,7 @@ class Generos extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'denom' => 'Denominación',
+            'created_at' => 'Fecha de creación',
         ];
     }
 

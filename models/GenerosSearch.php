@@ -12,6 +12,7 @@ class GenerosSearch extends Generos
     {
         return [
             [['denom'], 'string', 'max' => 255],
+            [['created_at'], 'safe'],
         ];
     }
 

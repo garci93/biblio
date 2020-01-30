@@ -5,6 +5,7 @@ use yii\bootstrap4\Html;
 use yii\bootstrap4\LinkPager;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\grid\SerialColumn;
 
 $this->title = 'Lista de géneros';
 $this->params['breadcrumbs'][] = $this->title;
@@ -15,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $generosSearch,
         'columns' => [
+            'id:currency',
             'denom',
             'created_at:relativetime',
             [

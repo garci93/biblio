@@ -8,22 +8,12 @@ use yii\data\Pagination;
 
 class GenerosSearch extends Generos
 {
-    public function rules()
-    {
-        return [
-            [['denom'], 'string', 'max' => 255],
-            [['created_at'], 'safe'],
-        ];
-    }
-
-    public function scenarios()
-    {
-        return Model::scenarios();
-    }
-
     public function search($params)
     {
-        $query = Generos::find();
+        $query = Generos::find()
+            ->select(['generos.*', 'COUNT(l.id) AS total'])
+            ->joinWith('libros l')
+            ->groupBy('generos.id');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -49,5 +39,27 @@ class GenerosSearch extends Generos
         $query->andFilterWhere(['ilike', 'denom', $this->denom]);
 
         return $dataProvider;
+    }
+    
+    public $total;
+
+    public function rules()
+    {
+        return [
+            [['denom'], 'string', 'max' => 255],
+            [['created_at'], 'safe'],
+            [['genero.denom'], 'safe'],
+            [['total'], 'safe'],
+        ];
+    }
+
+    public function scenarios()
+    {
+        return Model::scenarios();
+    }
+
+    public function attributes()
+    {
+        return array_merge(parent::attributes(), ['total']);
     }
 }

@@ -18,7 +18,7 @@ class LibrosSearch extends Libros
     {
         return [
             [['id', 'num_pags'], 'integer'],
-            [['isbn', 'titulo'], 'safe'],
+            [['isbn', 'titulo', 'genero.denom'], 'safe'],
         ];
     }
 
@@ -31,6 +31,11 @@ class LibrosSearch extends Libros
         return Model::scenarios();
     }
 
+    public function attributes()
+    {
+        return array_merge(parent::attributes(), ['genero.denom']);
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -40,13 +45,18 @@ class LibrosSearch extends Libros
      */
     public function search($params)
     {
-        $query = Libros::find();
+        $query = Libros::find()->joinWith('genero g');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['genero.denom'] = [
+            'asc' => ['g.denom' => SORT_ASC],
+            'desc' => ['g.denom' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -63,7 +73,8 @@ class LibrosSearch extends Libros
             'isbn' => $this->isbn,
         ]);
 
-        $query->andFilterWhere(['ilike', 'titulo', $this->titulo]);
+        $query->andFilterWhere(['ilike', 'titulo', $this->titulo])
+            ->andFilterWhere(['ilike', 'g.denom', $this->getAttribute('genero.denom')]);
 
         return $dataProvider;
     }

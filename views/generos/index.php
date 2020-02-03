@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id:currency',
             'denom',
+            'total',
             'created_at:relativetime',
             [
                 'attribute' => 'created_at',
@@ -30,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col">
-            <?= Html::a('Insertar',
+            <?= Html::a(
+                'Insertar',
                 ['generos/create'],
                 ['class' => 'btn btn-sm btn-primary']
             ) ?>

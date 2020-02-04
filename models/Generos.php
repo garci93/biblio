@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "generos".
@@ -16,6 +15,8 @@ use yii\data\ActiveDataProvider;
  */
 class Generos extends \yii\db\ActiveRecord
 {
+    private $_total = null;
+
     /**
      * {@inheritdoc}
      */
@@ -31,43 +32,10 @@ class Generos extends \yii\db\ActiveRecord
     {
         return [
             [['denom'], 'required'],
+            [['created_at'], 'safe'],
             [['denom'], 'string', 'max' => 255],
             [['denom'], 'unique'],
-            [['total'], 'safe'],
         ];
-    }
-
-    public function search($params)
-    {
-        $query = Generos::find()
-            ->select(['generos.*', 'COUNT(l.id) AS total'])
-            ->joinWith('libros l')
-            ->groupBy('generos.id');
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 5,
-            ],
-            'sort' => [
-                'attributes' => [
-                    'denom' => [
-                        'label' => 'Denominación',
-                    ],
-                ],
-            ],
-        ]);
-
-        $this->load($params);
-     
-        if (!$this->validate()) {
-            $query->where('1 = 0');
-            return $dataProvider;
-        }
-
-        $query->andFilterWhere(['ilike', 'denom', $this->denom]);
-
-        return $dataProvider;
     }
 
     /**
@@ -78,9 +46,21 @@ class Generos extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'denom' => 'Denominación',
-            'total' => 'Total',
-            'created_at' => 'Fecha de creación',
+            'created_at' => 'Fecha de alta',
         ];
+    }
+
+    public function setTotal($total)
+    {
+        $this->_total = $total;
+    }
+
+    public function getTotal()
+    {
+        if ($this->_total === null && !$this->isNewRecord) {
+            $this->setTotal($this->getLibros()->count());
+        }
+        return $this->_total;
     }
 
     /**
@@ -89,5 +69,13 @@ class Generos extends \yii\db\ActiveRecord
     public function getLibros()
     {
         return $this->hasMany(Libros::className(), ['genero_id' => 'id'])->inverseOf('genero');
+    }
+
+    public static function findWithTotal()
+    {
+        return static::find()
+            ->select(['generos.*', 'COUNT(l.id) AS total'])
+            ->joinWith('libros l', false)
+            ->groupBy('generos.id');
     }
 }

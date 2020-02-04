@@ -1,41 +1,35 @@
 <?php
 
-use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
-use yii\bootstrap4\LinkPager;
-use yii\grid\ActionColumn;
 use yii\grid\GridView;
-use yii\grid\SerialColumn;
 
-$this->title = 'Lista de géneros';
+/* @var $this yii\web\View */
+/* @var $searchModel app\models\GenerosSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'Generos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
 <div class="generos-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a('Create Generos', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $generosSearch,
+        'filterModel' => $searchModel,
         'columns' => [
-            'id:currency',
             'denom',
+            'created_at:datetime',
             'total',
-            'created_at:relativetime',
-            [
-                'attribute' => 'created_at',
-                'format' => 'datetime',
-                'label' => 'Fecha alta',
-            ],
-            ['class' => ActionColumn::class],
+            ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]) ?>
+    ]); ?>
 
-    <div class="row">
-        <div class="col">
-            <?= Html::a(
-                'Insertar',
-                ['generos/create'],
-                ['class' => 'btn btn-sm btn-primary']
-            ) ?>
-        </div>
-    </div>
+
 </div>

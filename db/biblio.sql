@@ -76,4 +76,7 @@ VALUES ('Informática')
 
 INSERT INTO libros (isbn, titulo, num_pags, genero_id)
 VALUES ('1111111111111', 'El nombre de la rosa', 760, 3)
-     , ('2222222222222', 'Cómo aprender PHP en 24 horas', 12, 1);
+     , ('2222222222222', 'Cómo aprender PHP en 24 horas', 12, 1)
+     , ('3333333333333', 'Cómo ssdfsdf', 12, 2)
+     , ('4444444444444', 'Cómo s3435345345', 12, 2)
+     , ('5555555555555', 'Cócxvklxjcvklj23klj4', 12, 1)

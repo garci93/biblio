@@ -4,11 +4,11 @@ use yii\bootstrap4\Html;
 use yii\bootstrap4\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\LibrosSearch */
+/* @var $model app\models\GenerosSearch */
 /* @var $form yii\bootstrap4\ActiveForm */
 ?>
 
-<div class="libros-search">
+<div class="generos-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,15 +17,9 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'isbn') ?>
+    <?= $form->field($model, 'denom') ?>
 
-    <?= $form->field($model, 'titulo') ?>
-
-    <?= $form->field($model, 'num_pags') ?>
-
-    <?= $form->field($model, 'genero_id') ?>
-
-    <?php // echo $form->field($model, 'created_at') ?>
+    <?= $form->field($model, 'created_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

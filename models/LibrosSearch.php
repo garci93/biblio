@@ -17,9 +17,14 @@ class LibrosSearch extends Libros
     public function rules()
     {
         return [
-            [['id', 'num_pags'], 'integer'],
-            [['isbn', 'titulo', 'genero.denom'], 'safe'],
+            [['id', 'num_pags', 'genero_id'], 'integer'],
+            [['isbn', 'titulo', 'created_at', 'genero.denom'], 'safe'],
         ];
+    }
+
+    public function attributes()
+    {
+        return array_merge(parent::attributes(), ['genero.denom']);
     }
 
     /**
@@ -29,11 +34,6 @@ class LibrosSearch extends Libros
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
-    }
-
-    public function attributes()
-    {
-        return array_merge(parent::attributes(), ['genero.denom']);
     }
 
     /**
@@ -70,10 +70,12 @@ class LibrosSearch extends Libros
         $query->andFilterWhere([
             'id' => $this->id,
             'num_pags' => $this->num_pags,
-            'isbn' => $this->isbn,
+            'genero_id' => $this->genero_id,
+            'created_at' => $this->created_at,
         ]);
 
-        $query->andFilterWhere(['ilike', 'titulo', $this->titulo])
+        $query->andFilterWhere(['ilike', 'isbn', $this->isbn])
+            ->andFilterWhere(['ilike', 'titulo', $this->titulo])
             ->andFilterWhere(['ilike', 'g.denom', $this->getAttribute('genero.denom')]);
 
         return $dataProvider;

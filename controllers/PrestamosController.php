@@ -3,17 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Libros;
-use app\models\LibrosSearch;
-use yii\filters\AccessControl;
+use app\models\Prestamos;
+use app\models\PrestamosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * LibrosController implements the CRUD actions for Libros model.
+ * PrestamosController implements the CRUD actions for Prestamos model.
  */
-class LibrosController extends Controller
+class PrestamosController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -27,38 +26,16 @@ class LibrosController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            'access' => [
-                'class' => AccessControl::class,
-                // 'only' => ['index'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'update'],
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rules, $action) {
-                            return Yii::$app->user->identity->nombre === 'manolo';
-                        },
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['view', 'delete'],
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rules, $action) {
-                            return Yii::$app->user->identity->nombre === 'pepe';
-                        },
-                    ],
-                ],
-            ],
         ];
     }
 
     /**
-     * Lists all Libros models.
+     * Lists all Prestamos models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new LibrosSearch();
+        $searchModel = new PrestamosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -68,7 +45,7 @@ class LibrosController extends Controller
     }
 
     /**
-     * Displays a single Libros model.
+     * Displays a single Prestamos model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -81,13 +58,13 @@ class LibrosController extends Controller
     }
 
     /**
-     * Creates a new Libros model.
+     * Creates a new Prestamos model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Libros();
+        $model = new Prestamos();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -99,7 +76,7 @@ class LibrosController extends Controller
     }
 
     /**
-     * Updates an existing Libros model.
+     * Updates an existing Prestamos model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -119,7 +96,7 @@ class LibrosController extends Controller
     }
 
     /**
-     * Deletes an existing Libros model.
+     * Deletes an existing Prestamos model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -133,15 +110,15 @@ class LibrosController extends Controller
     }
 
     /**
-     * Finds the Libros model based on its primary key value.
+     * Finds the Prestamos model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Libros the loaded model
+     * @return Prestamos the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Libros::findOne($id)) !== null) {
+        if (($model = Prestamos::findOne($id)) !== null) {
             return $model;
         }
 

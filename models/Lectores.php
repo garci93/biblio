@@ -16,6 +16,9 @@ use Yii;
  * @property float|null $cod_postal
  * @property string|null $fecha_nac
  * @property string $created_at
+ * 
+ * @property Prestamos[] $prestamos
+ * @property Libros[] $libros
  */
 class Lectores extends \yii\db\ActiveRecord
 {
@@ -58,5 +61,26 @@ class Lectores extends \yii\db\ActiveRecord
             'fecha_nac' => 'Fecha Nac',
             'created_at' => 'Created At',
         ];
+    }
+
+    /** 
+     * @return \yii\db\ActiveQuery 
+     */ 
+    public function getPrestamos() 
+    {
+        return $this->hasMany(Prestamos::className(), ['lector_id' => 'id'])->inverseOf('lector');
+    }
+
+    public function getLibros()
+    {
+        return $this->hasMany(Libros::class, ['id' => 'libro_id'])->via('prestamos');
+    }
+
+    public function getPrestados()
+    {
+        return $this->getLibros()
+            ->via('prestamos', function ($query) {
+                $query->andWhere(['devolucion' => null]);
+            });
     }
 }

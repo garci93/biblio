@@ -4,18 +4,18 @@ use yii\bootstrap4\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\LectoresSearch */
+/* @var $searchModel app\models\PrestamosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Lectores';
+$this->title = 'Prestamos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="lectores-index">
+<div class="prestamos-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Lectores', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Prestamos', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,14 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'numero',
-            'nombre',
-            'direccion',
-            'poblacion',
-            //'provincia',
-            //'cod_postal',
-            //'fecha_nac',
-            //'created_at',
+            'libro_id',
+            'lector_id',
+            'created_at',
+            'devolucion',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

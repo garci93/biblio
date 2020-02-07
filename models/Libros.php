@@ -15,6 +15,8 @@ use Yii;
  * @property string $created_at
  *
  * @property Generos $genero
+ * @property Prestamos[] $prestamos
+ * @property Lectores[] $lectores
  */
 class Libros extends \yii\db\ActiveRecord
 {
@@ -64,5 +66,18 @@ class Libros extends \yii\db\ActiveRecord
     public function getGenero()
     {
         return $this->hasOne(Generos::className(), ['id' => 'genero_id'])->inverseOf('libros');
+    }
+
+    /** 
+     * @return \yii\db\ActiveQuery 
+     */ 
+    public function getPrestamos() 
+    { 
+        return $this->hasMany(Prestamos::className(), ['libro_id' => 'id'])->inverseOf('libro'); 
+    }
+
+    public function getLectores()
+    {
+        return $this->hasMany(Lectores::class, ['id' => 'lector_id'])->via('prestamos');
     }
 }

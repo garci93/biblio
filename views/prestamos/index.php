@@ -24,15 +24,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'libro_id',
-            'lector_id',
-            'created_at',
-            'devolucion',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            'libro.titulo',
+            'lector.nombre',
+            'created_at:datetime',
+            'devolucion:datetime',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {devolver}',
+                'buttons' => [
+                    'devolver' => function ($url, $model, $key) {
+                        return Html::a('Devolver', $url, [
+                            'class' => 'btn btn-sm btn-danger',
+                            'data-method' => 'POST',
+                            'data-confirm' => '¿Está seguro de devolver este préstamo?',
+                        ]);
+                    }
+                ],
+            ],
         ],
     ]); ?>
 

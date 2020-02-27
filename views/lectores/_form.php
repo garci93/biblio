@@ -10,7 +10,9 @@ use yii\bootstrap4\ActiveForm;
 
 <div class="lectores-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'enableAjaxValidation' => true,
+    ]); ?>
 
     <?= $form->field($model, 'numero')->textInput(['maxlength' => true]) ?>
 
@@ -22,7 +24,7 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'provincia')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'cod_postal')->textInput() ?>
+    <?= $form->field($model, 'codpostal_id')->textInput() ?>
 
     <?= $form->field($model, 'fecha_nac')->textInput() ?>
 

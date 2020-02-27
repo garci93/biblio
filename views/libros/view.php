@@ -34,6 +34,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'num_pags',
             'genero.denom',
             'created_at:datetime',
+            [
+                'attribute' => 'imagen',
+                'value' => function ($model, $widget) {
+                    return Html::img($model->imagenUrl, ['width' => 400]);
+                },
+                'format' => 'raw',
+            ],
         ],
     ]) ?>
 

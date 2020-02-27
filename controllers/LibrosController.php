@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\ImagenForm;
 use Yii;
 use app\models\Libros;
 use app\models\LibrosSearch;
@@ -9,6 +10,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * LibrosController implements the CRUD actions for Libros model.
@@ -27,28 +29,28 @@ class LibrosController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            'access' => [
-                'class' => AccessControl::class,
-                // 'only' => ['index'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'update'],
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rules, $action) {
-                            return Yii::$app->user->identity->nombre === 'manolo';
-                        },
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['view', 'delete'],
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rules, $action) {
-                            return Yii::$app->user->identity->nombre === 'pepe';
-                        },
-                    ],
-                ],
-            ],
+            // 'access' => [
+            //     'class' => AccessControl::class,
+            //     'only' => ['index'],
+            //     'rules' => [
+            //         [
+            //             'allow' => true,
+            //             'actions' => ['index', 'update'],
+            //             'roles' => ['@'],
+            //             'matchCallback' => function ($rules, $action) {
+            //                 return Yii::$app->user->identity->nombre === 'manolo';
+            //             },
+            //         ],
+            //         [
+            //             'allow' => true,
+            //             'actions' => ['view', 'delete'],
+            //             'roles' => ['@'],
+            //             'matchCallback' => function ($rules, $action) {
+            //                 return Yii::$app->user->identity->nombre === 'pepe';
+            //             },
+            //         ],
+            //     ],
+            // ],
         ];
     }
 
@@ -94,6 +96,32 @@ class LibrosController extends Controller
         }
 
         return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionCorreo()
+    {
+        Yii::$app->mailer->compose()
+            ->setFrom(Yii::$app->params['smtpUsername'])
+            ->setTo('Vulaced38@einrot.com')
+            ->setSubject('Este es el asunto del mensaje')
+            ->setTextBody('Este es el cuerpo del mensaje')
+            ->send();
+    }
+
+    public function actionImagen($id)
+    {
+        $model = new ImagenForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->imagen = UploadedFile::getInstance($model, 'imagen');
+            if ($model->upload($id)) {
+                return $this->redirect('libros/index');
+            }
+        }
+
+        return $this->render('imagen', [
             'model' => $model,
         ]);
     }

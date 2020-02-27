@@ -69,6 +69,7 @@ class GenerosController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
+        $generos = Generos::lista();
 
         return $this->render('create', [
             'model' => $model,

@@ -20,6 +20,9 @@ use Yii;
  */
 class Libros extends \yii\db\ActiveRecord
 {
+    private $_imagen = null;
+    private $_imagenUrl = null;
+
     /**
      * {@inheritdoc}
      */
@@ -36,7 +39,8 @@ class Libros extends \yii\db\ActiveRecord
         return [
             [['isbn', 'titulo', 'genero_id'], 'required'],
             [['num_pags', 'genero_id'], 'default', 'value' => null],
-            [['num_pags', 'genero_id'], 'integer'],
+            [['num_pags'], 'integer', 'min' => 0],
+            [['genero_id'], 'integer'],
             [['created_at'], 'safe'],
             [['isbn'], 'string', 'max' => 13],
             [['titulo'], 'string', 'max' => 255],
@@ -79,5 +83,48 @@ class Libros extends \yii\db\ActiveRecord
     public function getLectores()
     {
         return $this->hasMany(Lectores::class, ['id' => 'lector_id'])->via('prestamos');
+    }
+
+    public function getEstaPrestado()
+    {
+        return $this->getPrestamos()
+            ->andOnCondition(['devolucion' => null])
+            ->exists();
+    }
+
+    public function getImagen()
+    {
+        if ($this->_imagen !== null) {
+            return $this->_imagen;
+        }
+
+        $this->setImagen(Yii::getAlias('@img/' . $this->id . '.jpg'));
+        return $this->_imagen;
+    }
+
+
+    public function setImagen($imagen)
+    {
+        $this->_imagen = $imagen;
+    }
+
+    public function getImagenUrl()
+    {
+        if ($this->_imagenUrl !== null) {
+            return $this->_imagenUrl;
+        }
+
+        $this->setImagenUrl(Yii::getAlias('@imgUrl/' . $this->id . '.jpg'));
+        return $this->_imagenUrl;
+    }
+
+    public function setImagenUrl($imagenUrl)
+    {
+        $this->_imagenUrl = $imagenUrl;
+    }
+
+    public static function lista()
+    {
+        return static::find()->select('titulo')->indexBy('id')->column();
     }
 }

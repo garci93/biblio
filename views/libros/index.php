@@ -29,7 +29,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'num_pags',
             'genero.denom',
             'created_at:datetime',
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {portada}',
+                'buttons' => [
+                    'portada' => function ($url, $model, $key) {
+                        return Html::a('Portada', ['libros/imagen', 'id' => $key]);
+                    }
+                ],
+            ],
         ],
     ]); ?>
 

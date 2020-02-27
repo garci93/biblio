@@ -1,7 +1,9 @@
 <?php
 
+use app\models\Generos;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Libros */

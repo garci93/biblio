@@ -78,4 +78,13 @@ class Generos extends \yii\db\ActiveRecord
             ->joinWith('libros l', false)
             ->groupBy('generos.id');
     }
+
+    public static function lista()
+    {
+        return static::find()
+            ->select('denom')
+            ->orderBy('denom')
+            ->indexBy('id')
+            ->column();
+    }
 }

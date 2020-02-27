@@ -18,6 +18,8 @@ use Yii;
  */
 class Prestamos extends \yii\db\ActiveRecord
 {
+    const SCENARIO_CREATE = 'create';
+
     /**
      * {@inheritdoc}
      */
@@ -35,11 +37,19 @@ class Prestamos extends \yii\db\ActiveRecord
             [['libro_id', 'lector_id'], 'required'],
             [['libro_id', 'lector_id'], 'default', 'value' => null],
             [['libro_id', 'lector_id'], 'integer'],
-            [['created_at', 'devolucion'], 'safe'],
             [['libro_id', 'lector_id', 'created_at'], 'unique', 'targetAttribute' => ['libro_id', 'lector_id', 'created_at']],
             [['lector_id'], 'exist', 'skipOnError' => true, 'targetClass' => Lectores::className(), 'targetAttribute' => ['lector_id' => 'id']],
             [['libro_id'], 'exist', 'skipOnError' => true, 'targetClass' => Libros::className(), 'targetAttribute' => ['libro_id' => 'id']],
+            [['libro_id'], 'comprobarPrestado', 'skipOnError' => true, 'on' => self::SCENARIO_CREATE],
         ];
+    }
+
+    public function comprobarPrestado($attribute, $params)
+    {
+        $libro = Libros::findOne($this->$attribute);
+        if ($libro->estaPrestado) {
+            $this->addError($attribute, 'Ese libro ya está prestado.');
+        }
     }
 
     /**
@@ -51,8 +61,8 @@ class Prestamos extends \yii\db\ActiveRecord
             'id' => 'ID',
             'libro_id' => 'Libro ID',
             'lector_id' => 'Lector ID',
-            'created_at' => 'Created At',
-            'devolucion' => 'Devolucion',
+            'created_at' => 'Fecha préstamo',
+            'devolucion' => 'Devolución',
         ];
     }
 

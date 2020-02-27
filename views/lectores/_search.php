@@ -27,7 +27,7 @@ use yii\bootstrap4\ActiveForm;
 
     <?php // echo $form->field($model, 'provincia') ?>
 
-    <?php // echo $form->field($model, 'cod_postal') ?>
+    <?php // echo $form->field($model, 'codpostal_id') ?>
 
     <?php // echo $form->field($model, 'fecha_nac') ?>
 

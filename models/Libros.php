@@ -39,7 +39,8 @@ class Libros extends \yii\db\ActiveRecord
         return [
             [['isbn', 'titulo', 'genero_id'], 'required'],
             [['num_pags', 'genero_id'], 'default', 'value' => null],
-            [['num_pags', 'genero_id'], 'integer'],
+            [['genero_id'], 'integer'],
+            [['num_pags'], 'integer', 'min' => 0],
             [['created_at'], 'safe'],
             [['isbn'], 'string', 'max' => 13],
             [['titulo'], 'string', 'max' => 255],

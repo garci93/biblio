@@ -2,6 +2,7 @@
 
 use yii\bootstrap4\Html;
 use yii\bootstrap4\ActiveForm;
+use kartik\datecontrol\DateControl;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Libros */
@@ -18,7 +19,7 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'num_pags')->textInput() ?>
 
-    <?= $form->field($model, 'genero_id')->textInput() ?>
+    <?= $form->field($model, 'genero_id')->dropDownList($lista)->label('Genero') ?>
 
     <?= $form->field($model, 'created_at')->textInput() ?>
 

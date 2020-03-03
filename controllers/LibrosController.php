@@ -2,14 +2,15 @@
 
 namespace app\controllers;
 
+use app\models\Generos;
 use app\models\ImagenForm;
-use Yii;
 use app\models\Libros;
 use app\models\LibrosSearch;
+use Yii;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
@@ -71,7 +72,7 @@ class LibrosController extends Controller
 
     /**
      * Displays a single Libros model.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -95,8 +96,11 @@ class LibrosController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        $listaGeneros = Generos::listaHash();
+
         return $this->render('create', [
             'model' => $model,
+            'laListaDeGeneros' => $listaGeneros,
         ]);
     }
 
@@ -129,7 +133,7 @@ class LibrosController extends Controller
     /**
      * Updates an existing Libros model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -149,7 +153,7 @@ class LibrosController extends Controller
     /**
      * Deletes an existing Libros model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -163,7 +167,7 @@ class LibrosController extends Controller
     /**
      * Finds the Libros model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
+     * @param int $id
      * @return Libros the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */

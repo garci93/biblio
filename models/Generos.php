@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use Yii;
-
 /**
  * This is the model class for table "generos".
  *
@@ -71,16 +69,23 @@ class Generos extends \yii\db\ActiveRecord
         return $this->hasMany(Libros::className(), ['genero_id' => 'id'])->inverseOf('genero');
     }
 
+    public static function listaHash()
+    {
+        $listaModelosGenero = self::find()->all();
+        $listaModelosHash = [];
+
+        foreach ($listaModelosGenero as $modeloGenero) {
+            $listaModelosHash[$modeloGenero->id] = $modeloGenero->denom;
+        }
+
+        return $listaModelosHash;
+    }
+
     public static function findWithTotal()
     {
         return static::find()
             ->select(['generos.*', 'COUNT(l.id) AS total'])
             ->joinWith('libros l', false)
             ->groupBy('generos.id');
-    }
-
-    public static function lista()
-    {
-        return static::find()->select('denom')->indexBy('id')->column();
     }
 }

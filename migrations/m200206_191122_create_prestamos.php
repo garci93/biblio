@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Class m200206_191122_create_prestamos
+ * Class m200206_191122_create_prestamos.
  */
 class m200206_191122_create_prestamos extends Migration
 {
@@ -43,7 +43,8 @@ class m200206_191122_create_prestamos extends Migration
                 'libro_id',
                 'lector_id',
                 'created_at',
-            ], true,
+            ],
+            true,
         );
     }
 

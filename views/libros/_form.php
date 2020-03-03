@@ -1,12 +1,14 @@
 <?php
 
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
 use kartik\datecontrol\DateControl;
-
+use kartik\icons\FontAwesomeAsset;
+use yii\bootstrap4\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Libros */
 /* @var $form yii\bootstrap4\ActiveForm */
+use yii\bootstrap4\Html;
+
+FontAwesomeAsset::register($this);
 ?>
 
 <div class="libros-form">
@@ -19,9 +21,17 @@ use kartik\datecontrol\DateControl;
 
     <?= $form->field($model, 'num_pags')->textInput() ?>
 
-    <?= $form->field($model, 'genero_id')->dropDownList($lista)->label('Genero') ?>
+    <?= $form->field($model, 'genero_id')->dropDownList($listaGeneros) ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?= $form->field($model, 'created_at')->widget(DateControl::class, [
+        'type' => 'datetime',
+        'widgetOptions' => [
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'php:d-m-Y H:i:s',
+            ],
+        ],
+    ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

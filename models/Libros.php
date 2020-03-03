@@ -72,12 +72,12 @@ class Libros extends \yii\db\ActiveRecord
         return $this->hasOne(Generos::className(), ['id' => 'genero_id'])->inverseOf('libros');
     }
 
-    /** 
-     * @return \yii\db\ActiveQuery 
-     */ 
-    public function getPrestamos() 
-    { 
-        return $this->hasMany(Prestamos::className(), ['libro_id' => 'id'])->inverseOf('libro'); 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPrestamos()
+    {
+        return $this->hasMany(Prestamos::className(), ['libro_id' => 'id'])->inverseOf('libro');
     }
 
     public function getLectores()

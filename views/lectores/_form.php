@@ -16,6 +16,7 @@ $( document ).ready(function() {
     }
   });
 });
+
 EOF;
 $this->registerJs($js);
 ?>

@@ -78,4 +78,16 @@ class Generos extends \yii\db\ActiveRecord
             ->joinWith('libros l', false)
             ->groupBy('generos.id');
     }
+    
+    public static function listaHash()
+    {
+        $listaModelosGenero = self::find()->all();
+        $listaModelosHash = [];
+
+        foreach ($listaModelosGenero as $modeloGenero) {
+            $listaModelosHash[$modeloGenero->id] = $modeloGenero->denom;
+        }
+
+        return $listaModelosHash;
+    }
 }

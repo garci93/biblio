@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Generos;
 use app\models\ImagenForm;
 use Yii;
 use app\models\Libros;
@@ -95,10 +96,14 @@ class LibrosController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        $listaGeneros = Generos::listaHash();
+
         return $this->render('create', [
             'model' => $model,
+            'laListaDeGeneros' => $listaGeneros,
         ]);
     }
+
 
     public function actionCorreo()
     {

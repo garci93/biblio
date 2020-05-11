@@ -5,4 +5,5 @@ return [
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
     'smtpUsername' => 'iesdonana2019@gmail.com',
+    'bsVersion' => '4.x',
 ];

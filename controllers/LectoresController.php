@@ -2,12 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\Codpostales;
 use Yii;
 use app\models\Lectores;
 use app\models\LectoresSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * LectoresController implements the CRUD actions for Lectores model.
@@ -123,5 +125,13 @@ class LectoresController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionDevolverPoblacionProvincia($codpostal)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $resultado['poblacion'] = Codpostales::findOne($codpostal)->poblacion->nombre;
+        $resultado['provincia'] = Codpostales::findOne($codpostal)->poblacion->provincia->nombre;
+        return $resultado;
     }
 }

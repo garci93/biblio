@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'direccion',
             'poblacion',
             'provincia',
-            'cod_postal',
+            'codpostal_id',
             'fecha_nac',
             'created_at',
         ],

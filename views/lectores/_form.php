@@ -22,7 +22,7 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'provincia')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'cod_postal')->textInput() ?>
+    <?= $form->field($model, 'codpostal_id')->textInput() ?>
 
     <?= $form->field($model, 'fecha_nac')->textInput() ?>
 

@@ -13,7 +13,7 @@ use Yii;
  * @property string|null $direccion
  * @property string|null $poblacion
  * @property string|null $provincia
- * @property float|null $cod_postal
+ * @property float|null $codpostal_id
  * @property string|null $fecha_nac
  * @property string $created_at
  * 
@@ -37,7 +37,7 @@ class Lectores extends \yii\db\ActiveRecord
     {
         return [
             [['numero', 'nombre', 'poblacion', 'provincia'], 'required'],
-            [['cod_postal'], 'number'],
+            [['codpostal_id'], 'number'],
             [['fecha_nac', 'created_at'], 'safe'],
             [['numero'], 'string', 'max' => 9],
             [['nombre', 'direccion', 'poblacion', 'provincia'], 'string', 'max' => 255],
@@ -57,7 +57,7 @@ class Lectores extends \yii\db\ActiveRecord
             'direccion' => 'Direccion',
             'poblacion' => 'Poblacion',
             'provincia' => 'Provincia',
-            'cod_postal' => 'Cod Postal',
+            'codpostal_id' => 'Cod Postal',
             'fecha_nac' => 'Fecha Nac',
             'created_at' => 'Created At',
         ];

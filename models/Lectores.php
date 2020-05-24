@@ -11,14 +11,15 @@ use Yii;
  * @property string $numero
  * @property string $nombre
  * @property string|null $direccion
- * @property string|null $poblacion
- * @property string|null $provincia
+ * @property string $poblacion
+ * @property string $provincia
  * @property float|null $codpostal_id
  * @property string|null $fecha_nac
  * @property string $created_at
- * 
+ *
+ * @property Codpostales $codpostal
  * @property Prestamos[] $prestamos
- * @property Libros[] $libros
+ * @property Usuarios[] $usuarios
  */
 class Lectores extends \yii\db\ActiveRecord
 {
@@ -42,6 +43,7 @@ class Lectores extends \yii\db\ActiveRecord
             [['numero'], 'string', 'max' => 9],
             [['nombre', 'direccion', 'poblacion', 'provincia'], 'string', 'max' => 255],
             [['numero'], 'unique'],
+            [['codpostal_id'], 'exist', 'skipOnError' => true, 'targetClass' => Codpostales::className(), 'targetAttribute' => ['codpostal_id' => 'id']],
         ];
     }
 
@@ -57,35 +59,39 @@ class Lectores extends \yii\db\ActiveRecord
             'direccion' => 'Direccion',
             'poblacion' => 'Poblacion',
             'provincia' => 'Provincia',
-            'codpostal_id' => 'Cod Postal',
+            'codpostal_id' => 'Codpostal ID',
             'fecha_nac' => 'Fecha Nac',
             'created_at' => 'Created At',
         ];
     }
 
-    /** 
-     * @return \yii\db\ActiveQuery 
-     */ 
-    public function getPrestamos() 
+    /**
+     * Gets query for [[Codpostal]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCodpostal()
+    {
+        return $this->hasOne(Codpostales::className(), ['id' => 'codpostal_id'])->inverseOf('lectores');
+    }
+
+    /**
+     * Gets query for [[Prestamos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPrestamos()
     {
         return $this->hasMany(Prestamos::className(), ['lector_id' => 'id'])->inverseOf('lector');
     }
 
-    public function getLibros()
+    /**
+     * Gets query for [[Usuarios]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsuarios()
     {
-        return $this->hasMany(Libros::class, ['id' => 'libro_id'])->via('prestamos');
-    }
-
-    public function getPrestados()
-    {
-        return $this->getLibros()
-            ->via('prestamos', function ($query) {
-                $query->andWhere(['devolucion' => null]);
-            });
-    }
-
-    public static function lista()
-    {
-        return static::find()->select('nombre')->indexBy('id')->column();
+        return $this->hasMany(Usuarios::className(), ['lector_id' => 'id'])->inverseOf('lector');
     }
 }

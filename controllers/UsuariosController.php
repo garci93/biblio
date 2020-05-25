@@ -2,10 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\Lectores;
 use app\models\Usuarios;
 use Yii;
 use yii\bootstrap4\Alert;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\Controller;
 
 class UsuariosController extends Controller
@@ -46,10 +48,14 @@ class UsuariosController extends Controller
     {
         if ($id === null) {
             if (Yii::$app->user->isGuest) {
-                Yii::$app->session->setFlash('error', 'Debe estar logueado.');
-                return $this->goHome();
+                return Yii::$app->getResponse()->redirect([Url::to(['site/login'], 302)]);
             } else {
-                $model = Yii::$app->user->identity;
+                if (Yii::$app->user->id === $id) {
+                    Yii::$app->session->setFlash('error', 'Sólo tiene permiso para cambiar sus propios datos de usuario.');
+                    return $this->goHome();
+                } else {
+                    $model = Yii::$app->user->identity;
+                }
             }
         } else {
             $model = Usuarios::findOne($id);
@@ -62,11 +68,14 @@ class UsuariosController extends Controller
             return $this->goHome();
         }
 
+        $listaLectores = Lectores::listaHash();
+
         $model->password = '';
         $model->password_repeat = '';
     
         return $this->render('update', [
             'model' => $model,
+            'laListaDeLectores' => $listaLectores,
         ]);
     }
 }

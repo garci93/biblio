@@ -58,8 +58,15 @@ AppAsset::register($this);
                             ['class' => 'dropdown-item'],
                         )
                         . Html::endForm()
+                        . Html::beginForm(['usuarios/update'], 'post')
+                        . Html::submitButton(
+                            'Modificar datos',
+                            ['class' => 'dropdown-item'],
+                        )
+                        . Html::endForm()
                         ),
                     ['label' => 'Registrarse', 'url' => ['usuarios/registrar']],
+                    
                 ],
             ],
         ],

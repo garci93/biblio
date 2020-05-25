@@ -94,4 +94,16 @@ class Lectores extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Usuarios::className(), ['lector_id' => 'id'])->inverseOf('lector');
     }
+
+    public static function listaHash()
+    {
+        $listaModelosLector = self::find()->all();
+        $listaModelosHash = [];
+
+        foreach ($listaModelosLector as $modeloLector) {
+            $listaModelosHash[$modeloLector->id] = $modeloLector->nombre;
+        }
+
+        return $listaModelosHash;
+    }
 }

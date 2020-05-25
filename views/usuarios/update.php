@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'password_repeat')->passwordInput() ?>
         <?= $form->field($model, 'telefono')->textInput() ?>
         <?= $form->field($model, 'poblacion')->textInput() ?>
+        <?= $form->field($model, 'lector_id')->dropDownList($listaLectores) ?>
 
         <div class="form-group">
             <div class="offset-sm-2">

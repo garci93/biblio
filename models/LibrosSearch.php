@@ -45,7 +45,7 @@ class LibrosSearch extends Libros
      */
     public function search($params)
     {
-        $query = Libros::find()->joinWith('genero g');
+        $query = Libros::findWithFavoritos();
 
         // add conditions that should always apply here
 

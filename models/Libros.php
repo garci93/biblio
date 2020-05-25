@@ -14,6 +14,7 @@ use Yii;
  * @property int $genero_id
  * @property string $created_at
  *
+ * @property Favoritos[] $favoritos 
  * @property Generos $genero
  * @property Prestamos[] $prestamos
  * @property Lectores[] $lectores
@@ -22,6 +23,7 @@ class Libros extends \yii\db\ActiveRecord
 {
     private $_imagen = null;
     private $_imagenUrl = null;
+    private $_total = null;
 
     /**
      * {@inheritdoc}
@@ -64,6 +66,34 @@ class Libros extends \yii\db\ActiveRecord
         ];
     }
 
+    public function setTotal($total)
+    {
+        $this->_total = $total;
+    }
+
+    public function getTotal()
+    {
+        if ($this->_total === null && !$this->isNewRecord) {
+            $this->setTotal($this->getFavoritos()->count());
+        }
+        return $this->_total;
+    }
+
+    public function getEsFavorito()
+    {
+        return $this->getFavoritos()->getLector()->id === Yii::$app->user->id ? 'Sí' : 'No' ;
+    }
+
+    /**
+     * Gets query for [[Favoritos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFavoritos()
+    {
+       return $this->hasMany(Favoritos::className(), ['libro_id' => 'id'])->inverseOf('libro');
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -72,11 +102,11 @@ class Libros extends \yii\db\ActiveRecord
         return $this->hasOne(Generos::className(), ['id' => 'genero_id'])->inverseOf('libros');
     }
 
-    /** 
-     * @return \yii\db\ActiveQuery 
-     */ 
-    public function getPrestamos() 
-    { 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPrestamos()
+    {
         return $this->hasMany(Prestamos::className(), ['libro_id' => 'id'])->inverseOf('libro'); 
     }
 

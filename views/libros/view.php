@@ -41,6 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'raw',
             ],
+            'total',
+            'esFavorito',
         ],
     ]) ?>
 

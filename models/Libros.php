@@ -127,4 +127,12 @@ class Libros extends \yii\db\ActiveRecord
     {
         return static::find()->select('titulo')->indexBy('id')->column();
     }
+
+    public static function findWithFavoritos()
+    {
+        return static::find()
+            ->select(['libros.*', 'COUNT(f.id) AS total'])
+            ->joinWith('favoritos f', false)
+            ->groupBy('libros.id');
+    }
 }
